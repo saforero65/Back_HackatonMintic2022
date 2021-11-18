@@ -11,6 +11,8 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 
 public interface UsuarioRepository extends MongoRepository<Usuario, String>{
 	
+	List<Usuario> findAll();
+	
 	List<Usuario> findByEmail(String email);
 	
 	List<Usuario> findByNombrecompleto(String nombrecompleto);

@@ -36,10 +36,11 @@ public class Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Usuario(String password, String nombrecompleto, String email,String tipo) {
+	public Usuario(String password,String nick, String nombrecompleto, String email,String tipo) {
 		super();
 
 		this.password = password;
+		this.nick = nick;
 		this.nombrecompleto = nombrecompleto;
 		this.email = email;
 		this.tipo = tipo;
