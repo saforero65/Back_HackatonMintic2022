@@ -16,9 +16,9 @@ public class Usuario {
 	
 	
     @Size(min = 7, max = 200, message 
-    	      = "Mira perrrrro, no me trolles que te baneo")
+    	      = "Default")
 	private String nombrecompleto;
-	@Min(value = 7, message = "Age should not be less than 18")
+	@Min(value = 7, message = "Default")
 	@Max(value= 30)
 	@NotBlank
 	private String password;
