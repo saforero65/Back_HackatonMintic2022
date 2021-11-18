@@ -1,5 +1,6 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.model;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -18,11 +19,15 @@ public class Usuario {
     @Size(min = 7, max = 200, message 
     	      = "Default")
 	private String nombrecompleto;
-	@Min(value = 7, message = "Default")
-	@Max(value= 30)
-	@NotBlank
+    @Size(min = 5, max = 200, message 
+  	      = "Default")
 	private String password;
+    @Size(min = 3, max = 200, message 
+  	      = "Default")
 	@NotBlank
+	private String nick;
+	@NotBlank
+	@Email
 	private String email;
 	@NotBlank
 	private String tipo;
@@ -38,6 +43,16 @@ public class Usuario {
 		this.nombrecompleto = nombrecompleto;
 		this.email = email;
 		this.tipo = tipo;
+	}
+
+	
+	
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 
 	public String getId() {

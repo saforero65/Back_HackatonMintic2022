@@ -7,8 +7,11 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +34,9 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.repository.UsuarioRe
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
@@ -71,10 +77,10 @@ public class UsuarioController {
 	@PostMapping("/usuarios")
 	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario user, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
-            return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(bindingResult.getAllErrors().toString()+"Please check the fiels", HttpStatus.BAD_REQUEST);
 		try {
 			Usuario _usuario = usuarioRepository.save(
-					new Usuario(user.getPassword(),user.getNombrecompleto() ,user.getEmail(),user.getTipo()));
+					new Usuario(passwordEncoder.encode(user.getPassword()),user.getNombrecompleto() ,user.getEmail(),user.getTipo()));
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

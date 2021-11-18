@@ -33,5 +33,5 @@ build/
 .vscode/
 ### eclipse###
 
-/src/main/resources
+/src/main/resources/**
 
