@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.repository.UsuarioRepository;
 
@@ -65,7 +69,9 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios")
-	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario user) {
+	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario user, BindingResult bindingResult) {
+		if(bindingResult.hasErrors())
+            return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
 		try {
 			Usuario _usuario = usuarioRepository.save(
 					new Usuario(user.getPassword(),user.getNombrecompleto() ,user.getEmail(),user.getTipo()));

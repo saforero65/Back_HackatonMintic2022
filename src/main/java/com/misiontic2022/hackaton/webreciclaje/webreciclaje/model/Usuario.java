@@ -1,5 +1,10 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,10 +13,18 @@ public class Usuario {
 
 	@Id
 	private String id;
-
+	
+	
+    @Size(min = 7, max = 200, message 
+    	      = "Mira perrrrro, no me trolles que te baneo")
 	private String nombrecompleto;
+	@Min(value = 7, message = "Age should not be less than 18")
+	@Max(value= 30)
+	@NotBlank
 	private String password;
+	@NotBlank
 	private String email;
+	@NotBlank
 	private String tipo;
 
 	public Usuario() {
