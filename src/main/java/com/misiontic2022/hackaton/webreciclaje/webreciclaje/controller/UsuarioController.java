@@ -68,7 +68,7 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario user) {
 		try {
 			Usuario _usuario = usuarioRepository.save(
-					new Usuario(user.getEmail(), user.getPassword(), user.getNombre_completo() ));
+					new Usuario(user.getPassword(),user.getNombrecompleto() ,user.getEmail(),user.getTipo()));
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
