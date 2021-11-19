@@ -41,15 +41,12 @@ public class UsuarioController {
 
 
 	@GetMapping("/usuarios")
-	public ResponseEntity<List<Usuario>> getAllUsuarios(@RequestParam(required = false) String email) {
+	public ResponseEntity<List<Usuario>> getAllUsuarios() {
 		try {
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 
-			if (email == null) {
 				usuarioRepository.findAll().forEach(usuarios::add);
-			} else {
-				usuarioRepository.findByEmail(email).forEach(usuarios::add);
-			}
+
 
 			if (usuarios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -63,7 +60,7 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/usuarios/{id}")
-	public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") String id) {
+	public ResponseEntity<Usuario> getUsuarioById(@PathVariable String id) {
 		Optional<Usuario> usuarioData = usuarioRepository.findById(id);
 
 		if (usuarioData.isPresent()) {
@@ -120,8 +117,8 @@ public class UsuarioController {
 		}
 	}
 
-	@GetMapping("/usuarios/{email}")
-	public ResponseEntity<List<Usuario>> findByUsername(@PathVariable("username") String email) {
+	@GetMapping("/usuarioss/{email}")
+	public ResponseEntity<List<Usuario>> findByUsername(@PathVariable String email) {
 		try {
 			List<Usuario> usuarios = usuarioRepository.findByEmail(email);
 
