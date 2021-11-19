@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "manualidades")
-public class Manualidades {
+public class Manualidad {
 	
 	
 	@Id
@@ -19,7 +19,7 @@ public class Manualidades {
 	private String imagen;
 	
 	
-	public Manualidades(String id, String idUsuario, @Size(min = 7, max = 200, message = "Default") String descripcion,
+	public Manualidad(String id, String idUsuario, @Size(min = 7, max = 200, message = "Default") String descripcion,
 			String imagen) {
 		super();
 		this.id = id;
@@ -27,10 +27,10 @@ public class Manualidades {
 		this.descripcion = descripcion;
 		this.imagen = imagen;
 	}
-	public Manualidades() {
+	public Manualidad() {
 		super();
 	}
-	public Manualidades(String idUsuario, @Size(min = 7, max = 200, message = "Default") String descripcion,
+	public Manualidad(String idUsuario, @Size(min = 7, max = 200, message = "Default") String descripcion,
 			String imagen) {
 		super();
 		this.idUsuario = idUsuario;
