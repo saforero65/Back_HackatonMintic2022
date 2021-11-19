@@ -1,6 +1,7 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -41,6 +42,17 @@ public class ManualidadController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+	@GetMapping("/{id}")
+	public ResponseEntity<Manualidad> getManualidadById(@PathVariable String id){
+		Optional<Manualidad> manualidad = manualidadRepository.findById(id);
+		if (manualidad.isPresent()) {
+			return new ResponseEntity<>(manualidad.get(), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		
 	}
 
 	@PostMapping
