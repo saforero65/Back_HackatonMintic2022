@@ -21,12 +21,18 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.misiontic2022.hackaton.webreciclaje.webreciclaje.controller"))
 				.paths(PathSelectors.any()).build()
-				.apiInfo(getApiInfo());
+				.apiInfo(apiInfo());
+	}
+	
+	private ApiInfo apiInfo() {
+	    return new ApiInfo(
+	      "Api Rest Spring Boot-Angular-MongoDB", 
+	      "This is the  access point from the frond end of the group 31, we are working for the point 12 of the hackaton", 
+	      "API TOS", 
+	      "Terms of service", 
+	      new Contact("Santiago Moreno y Juan Salas", "https://github.com/saforero65/Back_HackatonMintic2022", "jdsalasc@unal.edu.co"), 
+	      "License of API", "API license URL", Collections.emptyList());
 	}
 
-	private ApiInfo getApiInfo() {
-		return new ApiInfo("Api test Spring-Angular-MongoDB", "Back-End TWeb Reciclaje", "1.0", "",
-				new Contact("", "", ""), "", "",
-				Collections.emptyList());
-	}  
+ 
 }

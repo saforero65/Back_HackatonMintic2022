@@ -30,9 +30,9 @@ public class SolicitudRecoleccionController {
 
 	@Autowired
 	SolicitudRecoleccionRepository solicitudRecoleccionRepository;
-	
+
 	@GetMapping
-	public ResponseEntity<List<SolicitudRecoleccion>> getAllSolicitudesRecoleccion (){
+	public ResponseEntity<List<SolicitudRecoleccion>> getAllSolicitudesRecoleccion() {
 		try {
 			List<SolicitudRecoleccion> solicitudes = solicitudRecoleccionRepository.findAll();
 			if (solicitudes.isEmpty()) {
@@ -42,43 +42,56 @@ public class SolicitudRecoleccionController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<SolicitudRecoleccion> getSolicitudRecoleccionById (@PathVariable String id){
+	public ResponseEntity<SolicitudRecoleccion> getSolicitudRecoleccionById(@PathVariable String id) {
 		Optional<SolicitudRecoleccion> solicitud = solicitudRecoleccionRepository.findById(id);
 		if (solicitud.isPresent()) {
 			return new ResponseEntity<>(solicitud.get(), HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteSolicitudRecoleccionById (@PathVariable String id) {
+	public ResponseEntity<HttpStatus> deleteSolicitudRecoleccionById(@PathVariable String id) {
 		try {
 			solicitudRecoleccionRepository.deleteById(id);
 			return new ResponseEntity("Solicitud de Recoleccion Eliminada", HttpStatus.OK);
-			
+
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			
+
 		}
 	}
-	
-	
-	
-	
+
+	@PostMapping
+	public ResponseEntity<SolicitudRecoleccion> newSolicitudRecoleccion(@Valid @RequestBody SolicitudRecoleccion solicitudRecoleccion, BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
+		try {
+			SolicitudRecoleccion solicitudtosave = solicitudRecoleccionRepository.save(solicitudRecoleccion);
+			return new ResponseEntity<>(solicitudtosave, HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			return new ResponseEntity("No se creo la solicitud, lo siento",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@PutMapping("/{id}")
-	public ResponseEntity<SolicitudRecoleccion> updateSolicitudRecoleccionById(@PathVariable String id, @Valid @RequestBody SolicitudRecoleccion solicitudRecoleccion, BindingResult bindingResult){
-		if(bindingResult.hasErrors()) 
-            return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<SolicitudRecoleccion> updateSolicitudRecoleccionById(@PathVariable String id,
+			@Valid @RequestBody SolicitudRecoleccion solicitudRecoleccion, BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
 		try {
 			solicitudRecoleccion.setId(id);
 			SolicitudRecoleccion saveSolicitudRecoleccion = solicitudRecoleccionRepository.save(solicitudRecoleccion);
 			return new ResponseEntity<>(saveSolicitudRecoleccion, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity("No se ha actualizado la solicitud",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity("No se ha actualizado la solicitud", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 }
