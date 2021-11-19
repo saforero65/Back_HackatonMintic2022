@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class RetoController {
 
 		return new ResponseEntity("no se encontraron retos", HttpStatus.BAD_REQUEST);
 	}
-	@GetMapping("/consulta/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Reto> getRetoById (@PathVariable String id){
 		
 		Optional<Reto> reto = retoRepository.findById(id);
@@ -54,6 +55,7 @@ public class RetoController {
 		
 	}
 	
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteById (@PathVariable String id){
 		try {
@@ -64,6 +66,21 @@ public class RetoController {
 		}
 		
 	}
+	@PutMapping("/{id}")
+	public ResponseEntity<Reto> updateRetoById(@PathVariable String id, @Valid @RequestBody Reto reto, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) 
+            return new ResponseEntity("Please check the fiels", HttpStatus.BAD_REQUEST);
+		try {
+			reto.setId(id);
+			Reto retoSave = retoRepository.save(reto);
+			return new ResponseEntity<>(retoSave, HttpStatus.CREATED);
+			
+		}catch (Exception e) {
+			return new ResponseEntity("No se creo el reto",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+
 
 	@PostMapping
 	public ResponseEntity<Reto> newReto (@Valid @RequestBody Reto reto, BindingResult bindingResult){
@@ -77,6 +94,7 @@ public class RetoController {
 			return new ResponseEntity("No se creo el reto",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 
 
 	
