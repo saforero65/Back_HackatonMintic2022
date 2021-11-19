@@ -1,5 +1,7 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.model;
 
+import java.util.Collection;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -8,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
 
 @Document(collection = "usuarios")
 public class Usuario {
@@ -31,6 +34,7 @@ public class Usuario {
 	private String email;
 	@NotBlank
 	private String tipo;
+	
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub

@@ -46,7 +46,7 @@ public class UsuarioSecurity implements UserDetails{
 	public static UsuarioSecurity build(Usuario  usuario){
         List<GrantedAuthority> authorities = null;
         
-        authorities.add((new SimpleGrantedAuthority("user")));	
+        
         return new UsuarioSecurity(usuario.getNombrecompleto(), usuario.getPassword(),usuario.getNick(), usuario.getEmail(), usuario.getTipo(), authorities);
     }
 	

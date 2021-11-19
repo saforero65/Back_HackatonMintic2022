@@ -20,7 +20,8 @@ UsuarioRepository usuarioRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario = usuarioRepository.findByEmail(username).get(0);
+		Usuario usuario = usuarioRepository.findByNick(username).get(0);
+		
 		return UsuarioSecurity.build(usuario);
 	}
 
