@@ -32,7 +32,7 @@ public class EmpresaRecolectoraController {
 
 	@GetMapping
 	public ResponseEntity<List<EmpresaRecolectora>> getAllEmpresasRecolectoras() {
-		List<EmpresaRecolectora> empresasrecolectoras = empresaRecolectoraRepository.finAll();
+		List<EmpresaRecolectora> empresasrecolectoras = empresaRecolectoraRepository.findAll();
 		if (!empresasrecolectoras.isEmpty()) {
 			return new ResponseEntity<>(empresasrecolectoras, HttpStatus.OK);
 		}

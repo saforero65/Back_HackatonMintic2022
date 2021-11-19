@@ -10,7 +10,7 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.EmpresaRecolec
 public interface EmpresaRecolectoraRepository extends MongoRepository<EmpresaRecolectora, String> {
 
 	
-	List<EmpresaRecolectora> finAll();
+	List<EmpresaRecolectora> findAll();
 	Optional<EmpresaRecolectora> findById(String id);
 	
 }
