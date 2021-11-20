@@ -36,7 +36,6 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtPr
 
 
 @CrossOrigin(origins = "*")
-//@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
@@ -89,9 +88,8 @@ public class UsuarioController {
 		if(bindingResult.hasErrors())
             return new ResponseEntity(bindingResult.getAllErrors().toString()+"Please check the fiels", HttpStatus.BAD_REQUEST);
 		try {
-			Set<String> roles = null;
-			roles.add("user");
-			user.setRoles(roles);
+			
+			user.addUserRol();
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			Usuario _usuario = usuarioRepository.save(user);
 					
