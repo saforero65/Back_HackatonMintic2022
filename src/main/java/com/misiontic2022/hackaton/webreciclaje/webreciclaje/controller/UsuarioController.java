@@ -46,12 +46,6 @@ public class UsuarioController {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
-    @Autowired
-    private AuthenticationManager authenticationManager;
-	
-    @Autowired
-    private JwtProvider jwtProvider;
-
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> getAllUsuarios() {
@@ -134,8 +128,13 @@ public class UsuarioController {
 	
 	
 
+<<<<<<< HEAD
 	@GetMapping("/{email}")
 	public ResponseEntity<List<Usuario>> findByEmail(@PathVariable String email) {
+=======
+	@GetMapping("/usuarios/{email}")
+	public ResponseEntity<List<Usuario>> findByUsername(@PathVariable String email) {
+>>>>>>> a54a53acd495b998b75c059b34c120e724bc6d22
 		try {
 			List<Usuario> usuarios = usuarioRepository.findByEmail(email);
 
@@ -147,24 +146,5 @@ public class UsuarioController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	@PostMapping("/login")
-	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUser, BindingResult bindingResult){
-			Usuario usuario = usuarioRepository.findByNick(loginUser.getNick()).get(0);
-			
-		 if(usuario == null){
-			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
-		  }
-
-		 	
-	    Authentication authentication =
-	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
-	    SecurityContextHolder.getContext().setAuthentication(authentication);
-	    String jwt = jwtProvider.generateToken(authentication);
-	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-	    return new ResponseEntity(jwtDto, HttpStatus.OK);
-
-}
 
 }
