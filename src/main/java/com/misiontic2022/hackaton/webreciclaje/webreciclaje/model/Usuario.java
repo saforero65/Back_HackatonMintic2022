@@ -34,6 +34,7 @@ public class Usuario {
 	@NotBlank
 	@Email
 	private String email;
+	
 	@NotBlank
 	private String tipo;
 	

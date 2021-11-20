@@ -153,12 +153,10 @@ public class UsuarioController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUser, BindingResult bindingResult){
-			Usuario usuario = usuarioRepository.findByNick(loginUser.getNick()).get(0);
-			
-		 if(usuario == null){
+		 if(usuarioRepository.findByNick(loginUser.getNick()).isEmpty()){
 			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
-		  }
-
+		  }	
+		Usuario usuario = usuarioRepository.findByNick(loginUser.getNick()).get(0);
  	
 	Authentication authentication =
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
