@@ -35,8 +35,6 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.repository.UsuarioRepository;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtProvider;
 
-
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/usuario")
@@ -47,6 +45,13 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	
+    @Autowired
+    private AuthenticationManager authenticationManager;
+	
+    @Autowired
+    private JwtProvider jwtProvider;
 	
 
 
@@ -153,17 +158,17 @@ public class UsuarioController {
 		 if(usuario == null){
 			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
 		  }
-	return new ResponseEntity<>(HttpStatus.OK);
-	}
 
-		 	
-//	    Authentication authentication =
-//	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
-//	    SecurityContextHolder.getContext().setAuthentication(authentication);
-//	    String jwt = jwtProvider.generateToken(authentication);
-//	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-//	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-//	    return new ResponseEntity(jwtDto, HttpStatus.OK);
+ 	
+	Authentication authentication =
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtProvider.generateToken(authentication);
+    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+    return new ResponseEntity(jwtDto, HttpStatus.OK);
+	
+	}
 
 
 
