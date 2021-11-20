@@ -25,10 +25,18 @@ async function iniciarSesion() {
 		localStorage.token = respuesta;
 		localStorage.email = datos.email;
 		
+		const request = await fetch('/dashboard.html', {
+		method: 'GET',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'Authorization': localStorage.token
+		},
 		
-		window.location.href = '/dashboard.html'
+		body: JSON.stringify(datos)
 		
 		
+		});
 	}else {
 		alert("las credenciales son incorrectas: por favor intente nuevamente")
 	}

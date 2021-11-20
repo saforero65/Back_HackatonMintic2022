@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.index.HashIndexed;
 import org.springframework.http.HttpStatus;
@@ -165,6 +166,7 @@ public class UsuarioController {
     UserDetails userDetails = (UserDetails)authentication.getPrincipal();
     JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
     return new ResponseEntity(jwtDto, HttpStatus.OK);
+    
 	
 	}
 
