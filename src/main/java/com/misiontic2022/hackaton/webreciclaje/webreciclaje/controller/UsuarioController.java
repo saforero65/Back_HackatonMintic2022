@@ -121,7 +121,7 @@ public class UsuarioController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteUsuarios(@PathVariable("id") String id) {
 		try {
