@@ -48,11 +48,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
-    @Autowired
-    private AuthenticationManager authenticationManager;
-	
-    @Autowired
-    private JwtProvider jwtProvider;
+
 
 
 	@GetMapping
