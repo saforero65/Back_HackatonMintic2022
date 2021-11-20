@@ -17,10 +17,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-public class UsuarioSecurity implements UserDetails{
+public class UsuarioSecurity  implements UserDetails{
 	
-	@Id
-	private String id;
 	
 
     @Size(min = 7, max = 200, message 
@@ -28,7 +26,6 @@ public class UsuarioSecurity implements UserDetails{
 	private String nombrecompleto;
 	@Min(value = 3, message = "Default")
 	@Max(value= 30)
-	@NotBlank
 	private String password;
 	
 	@Min(value = 3, message = "Default")
@@ -44,9 +41,10 @@ public class UsuarioSecurity implements UserDetails{
 	
 	
 	public static UsuarioSecurity build(Usuario  usuario){
-        List<GrantedAuthority> authorities = null;
-        
-        
+        List<GrantedAuthority> authorities =
+        		
+        		usuario.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol
+                )).collect(Collectors.toList());
         return new UsuarioSecurity(usuario.getNombrecompleto(), usuario.getPassword(),usuario.getNick(), usuario.getEmail(), usuario.getTipo(), authorities);
     }
 	
@@ -62,6 +60,8 @@ public class UsuarioSecurity implements UserDetails{
 		this.tipo = tipo;
 		this.authorities = authorities;
 	}
+	
+	
 
 
 	@Override
@@ -99,5 +99,57 @@ public class UsuarioSecurity implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+
+	public String getNombrecompleto() {
+		return nombrecompleto;
+	}
+
+
+	public void setNombrecompleto(String nombrecompleto) {
+		this.nombrecompleto = nombrecompleto;
+	}
+
+
+	public String getNick() {
+		return nick;
+	}
+
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+	
+	
 
 }

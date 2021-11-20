@@ -1,6 +1,8 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.model;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -35,23 +37,85 @@ public class Usuario {
 	@NotBlank
 	private String tipo;
 	
+    private Set<String> roles = new HashSet<>();
+    
+    
+
+    
+    
+    
+    
+    
+    
+	public Set<String> getRoles() {
+		return roles;
+	}
+
+
+
+
+
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
+	}
+
+
+
+
+
+
+	public Usuario(@Size(min = 7, max = 200, message = "Default") String nombrecompleto,
+			@Size(min = 5, max = 200, message = "Default") String password,
+			@Size(min = 3, max = 200, message = "Default") @NotBlank String nick, @NotBlank @Email String email,
+			@NotBlank String tipo) {
+		super();
+		this.nombrecompleto = nombrecompleto;
+		this.password = password;
+		this.nick = nick;
+		this.email = email;
+		this.tipo = tipo;
+	}
+
+
+
+
+
+
+	public Usuario(@Size(min = 7, max = 200, message = "Default") String nombrecompleto,
+			@Size(min = 5, max = 200, message = "Default") String password,
+			@Size(min = 3, max = 200, message = "Default") @NotBlank String nick, @NotBlank @Email String email,
+			@NotBlank String tipo, Set<String> roles) {
+		super();
+		this.nombrecompleto = nombrecompleto;
+		this.password = password;
+		this.nick = nick;
+		this.email = email;
+		this.tipo = tipo;
+		this.roles = roles;
+	}
+
+
+
+
+
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Usuario(String password,String nick, String nombrecompleto, String email,String tipo) {
-		super();
 
-		this.password = password;
-		this.nick = nick;
-		this.nombrecompleto = nombrecompleto;
-		this.email = email;
-		this.tipo = tipo;
+	
+
+	
+	
+	public Usuario(String id) {
+		super();
+		this.id = id;
 	}
 
-	
-	
+
+
 	public String getNick() {
 		return nick;
 	}

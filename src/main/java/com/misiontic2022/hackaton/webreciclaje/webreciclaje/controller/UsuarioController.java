@@ -97,13 +97,13 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/usuarios/{id}")
-	public ResponseEntity<Usuario> updateUsuario(@PathVariable("id") String id, @RequestBody Usuario user) {
+	public ResponseEntity<Usuario> updateUsuario(@PathVariable String id, @RequestBody Usuario user) {
 		Optional<Usuario> usuarioData = usuarioRepository.findById(id);
 
 		if (usuarioData.isPresent()) {
-			Usuario _usuario = usuarioData.get();
-			_usuario.setEmail(user.getEmail());
-			_usuario.setPassword(user.getPassword());
+			user.setId(id);
+			Usuario _usuario = usuarioRepository.save(user);
+			
 			return new ResponseEntity<>(usuarioRepository.save(_usuario), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -146,23 +146,23 @@ public class UsuarioController {
 		}
 	}
 	
-//	@PostMapping("/login")
-//	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUser, BindingResult bindingResult){
-//			Usuario usuario = usuarioRepository.findByNick(loginUser.getNick()).get(0);
-//			
-//		 if(usuario == null){
-//			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
-//		  }
-//
-//		 
-//	    Authentication authentication =
-//	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
-//	    SecurityContextHolder.getContext().setAuthentication(authentication);
-//	    String jwt = jwtProvider.generateToken(authentication);
-//	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-//	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-//	    return new ResponseEntity(jwtDto, HttpStatus.OK);
-//
-//}
+	@PostMapping("/login")
+	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUser, BindingResult bindingResult){
+			Usuario usuario = usuarioRepository.findByNick(loginUser.getNick()).get(0);
+			
+		 if(usuario == null){
+			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
+		  }
+
+		 	
+	    Authentication authentication =
+	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	    String jwt = jwtProvider.generateToken(authentication);
+	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+	    return new ResponseEntity(jwtDto, HttpStatus.OK);
+
+}
 
 }

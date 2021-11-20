@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
+import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.UsuarioSecurity;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +31,7 @@ public class JwtProvider {
 
     public String generateToken(Authentication authentication){
     	
-        Usuario principalUser = (Usuario) authentication.getPrincipal();
+        UsuarioSecurity principalUser = (UsuarioSecurity) authentication.getPrincipal();
         return Jwts.builder().setSubject(principalUser.getNombrecompleto())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
