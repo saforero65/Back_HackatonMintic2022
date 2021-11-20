@@ -169,6 +169,6 @@ public class UsuarioController {
 //	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
 //	    return new ResponseEntity(jwtDto, HttpStatus.OK);
 
-}
+
 
 }
