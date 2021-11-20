@@ -48,11 +48,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
-    @Autowired
-    private AuthenticationManager authenticationManager;
-	
-    @Autowired
-    private JwtProvider jwtProvider;
+
 
 
 	@GetMapping
@@ -157,16 +153,18 @@ public class UsuarioController {
 		 if(usuario == null){
 			 return new ResponseEntity("please check all fields", HttpStatus.BAD_REQUEST);
 		  }
+	return new ResponseEntity<>(HttpStatus.OK);
+	}
 
 		 	
-	    Authentication authentication =
-	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
-	    SecurityContextHolder.getContext().setAuthentication(authentication);
-	    String jwt = jwtProvider.generateToken(authentication);
-	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-	    return new ResponseEntity(jwtDto, HttpStatus.OK);
+//	    Authentication authentication =
+//	            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getNick(), loginUser.getPassword()));
+//	    SecurityContextHolder.getContext().setAuthentication(authentication);
+//	    String jwt = jwtProvider.generateToken(authentication);
+//	    UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+//	    JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+//	    return new ResponseEntity(jwtDto, HttpStatus.OK);
 
-}
+
 
 }
