@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.index.HashIndexed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -121,12 +122,11 @@ public class UsuarioController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('admin')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteUsuarios(@PathVariable("id") String id) {
 		try {
 			usuarioRepository.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity("usuario eliminado", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
