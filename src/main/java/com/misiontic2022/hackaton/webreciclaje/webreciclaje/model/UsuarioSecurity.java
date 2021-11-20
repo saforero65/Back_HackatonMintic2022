@@ -17,8 +17,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+@SuppressWarnings("serial")
 public class UsuarioSecurity  implements UserDetails{
-	
 	
 
     @Size(min = 7, max = 200, message 
@@ -40,7 +40,7 @@ public class UsuarioSecurity  implements UserDetails{
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	
-	public static UsuarioSecurity build(Usuario  usuario){
+	public static UsuarioSecurity build(Usuario usuario){
         List<GrantedAuthority> authorities =
         		
         		usuario.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol

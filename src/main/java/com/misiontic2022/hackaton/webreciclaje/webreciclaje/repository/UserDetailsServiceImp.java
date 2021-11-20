@@ -11,16 +11,19 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.UsuarioSecurity;
 
 
-@Service
-@Transactional
 public class UserDetailsServiceImp implements UserDetailsService{
-@Autowired
-UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = usuarioRepository.findByNick(username).get(0);
+		
+		if (usuario == null) {
+			throw new UsernameNotFoundException("User not found", null);
+		}
 		
 		return UsuarioSecurity.build(usuario);
 	}
