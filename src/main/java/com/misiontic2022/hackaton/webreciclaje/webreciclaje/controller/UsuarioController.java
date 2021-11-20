@@ -3,6 +3,7 @@ package com.misiontic2022.hackaton.webreciclaje.webreciclaje.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -88,8 +89,12 @@ public class UsuarioController {
 		if(bindingResult.hasErrors())
             return new ResponseEntity(bindingResult.getAllErrors().toString()+"Please check the fiels", HttpStatus.BAD_REQUEST);
 		try {
-			Usuario _usuario = usuarioRepository.save(
-					new Usuario(passwordEncoder.encode(user.getPassword()),user.getNick(),user.getNombrecompleto() ,user.getEmail(),user.getTipo()));
+			Set<String> roles = null;
+			roles.add("user");
+			user.setRoles(roles);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			Usuario _usuario = usuarioRepository.save(user);
+					
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
