@@ -76,13 +76,19 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-				.antMatchers("/dash").authenticated()
+				.antMatchers("/dash.html").permitAll()
 				.antMatchers("/auth/**").permitAll()
 				.antMatchers("/swagger-ui.html/**").permitAll()
 				.antMatchers("/**").permitAll()
 				.anyRequest().authenticated()
-				.and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).
-				and()
+				.and()
+               	.formLogin()
+               	.loginPage("/Login").permitAll()
+               	.and()
+               	.logout().permitAll()
+				.and()
+				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

@@ -1,15 +1,18 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje;
 
-import javax.validation.Valid;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.index.HashIndexed;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.JwtDto;
+import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtProvider;
 
 @Controller
@@ -17,12 +20,7 @@ public class AppController {
     @Autowired
     private JwtProvider jwtProvider;
 	
-    
-    @GetMapping("/error.html")
-    public String redError () {
-    	return "login.html";
-    	
-    }
+
     
 	@GetMapping("/")
 	public String viewIndex () {
@@ -30,19 +28,24 @@ public class AppController {
 	}
 	
 
+//	@GetMapping("/dash.html")
+//	public String viewHomePage() {
+//
+//		return "../static/dash.html";
+//		
+//		
+//	}
 	
-	
-	@GetMapping("/dashboard")
-	public String viewHomePage(@RequestHeader String token) {
-		token= "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEyMzQ1NjciLCJpYXQiOjE2Mzc0MTQxMjEsImV4cCI6MTYzNzQ1MDEyMX0.KCxfZOWSv8ld31U2slaZ6h7hZEFM7vUhvosNsUi4nqQMuNKKggUZ5yXuOtSIKUzye1NjepKVXfNbUC3WME37aw";
-		System.out.println(token);
+	@GetMapping("/auth")
+	public  ResponseEntity<?>viewHomePage(@RequestHeader(value="Authorization") String token) {
 		if (jwtProvider.validateToken(token)) {
-			return "/dash.html";
+			return new ResponseEntity<>(true, HttpStatus.OK);
 		}
-		return "/login.html";
+		return new ResponseEntity<>(false, HttpStatus.OK);
 	}
+		
 	
-	@GetMapping("/login")
+	@GetMapping("/login")	
 	public String viewLoginPage() {
 		
 		return "/login.html";
