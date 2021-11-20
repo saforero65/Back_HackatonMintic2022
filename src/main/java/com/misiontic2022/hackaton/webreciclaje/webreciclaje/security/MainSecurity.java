@@ -1,6 +1,5 @@
 package com.misiontic2022.hackaton.webreciclaje.webreciclaje.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.repository.UsuarioRe
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtEntryPoint;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtTokenFIlter;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,11 +31,9 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtEntryPoint jwtEntryPoint;
 
-	String[] resources = new String[]{
-           "/include/**","/css/**","/icons/**","/images/**","/js/**","/layer/**", "/documents/**",
-           "/vendor/**"
-    };
-	
+	String[] resources = new String[] { "/include/**", "/css/**", "/icons/**", "/images/**", "/js/**", "/layer/**",
+			"/documents/**", "/vendor/**" };
+
 	@Bean
 	public JwtTokenFIlter jwtTokenFilter() {
 		return new JwtTokenFIlter();
@@ -66,23 +62,13 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable()
-				.authorizeRequests()
-				.antMatchers(resources).permitAll()
-				.antMatchers("/swagger-ui.html/**").permitAll()
-				.antMatchers("/", "/index").permitAll()
+		http.cors().and().csrf().disable().authorizeRequests()
+				.antMatchers("/auth/**").permitAll()
+				.antMatchers("/swagger-ui.html/**").permitAll().antMatchers("/**").permitAll()
 				.antMatchers("/api/").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.formLogin()
-					.loginPage("/login").permitAll()
-					.usernameParameter("username")
-					.defaultSuccessUrl("/dashboard")
-				.and()
-				.logout().logoutSuccessUrl("/").permitAll()
-				.and()
-				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
