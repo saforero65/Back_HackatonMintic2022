@@ -11,6 +11,7 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.Usuario;
 import com.misiontic2022.hackaton.webreciclaje.webreciclaje.model.UsuarioSecurity;
 
 
+
 public class UserDetailsServiceImp implements UserDetailsService{
 
 	@Autowired
