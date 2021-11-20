@@ -33,6 +33,11 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JwtEntryPoint jwtEntryPoint;
 
+	String[] resources = new String[]{
+           "/include/**","/css/**","/icons/**","/images/**","/js/**","/layer/**", "/documents/**",
+           "/vendor/**"
+    };
+	
 	@Bean
 	public JwtTokenFIlter jwtTokenFilter() {
 		return new JwtTokenFIlter();
@@ -62,12 +67,21 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
-				.authorizeRequests().antMatchers("/auth/**").permitAll()
+				.authorizeRequests()
+				.antMatchers(resources).permitAll()
 				.antMatchers("/swagger-ui.html/**").permitAll()
-				.antMatchers("/**").permitAll()
+				.antMatchers("/", "/index").permitAll()
 				.antMatchers("/api/").permitAll()
-				.anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
+				.anyRequest().authenticated()
+				.and()
+				.formLogin()
+					.loginPage("/login").permitAll()
+					.usernameParameter("username")
+					.defaultSuccessUrl("/dashboard")
+				.and()
+				.logout().logoutSuccessUrl("/").permitAll()
+				.and()
+				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

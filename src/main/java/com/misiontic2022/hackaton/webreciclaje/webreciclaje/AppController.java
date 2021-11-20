@@ -8,7 +8,7 @@ public class AppController {
 
 	@GetMapping("/dashboard")
 	public String viewHomePage() {
-		return "dash";
+		return "dash.html";
 	}
 	
 	@GetMapping("/login")
