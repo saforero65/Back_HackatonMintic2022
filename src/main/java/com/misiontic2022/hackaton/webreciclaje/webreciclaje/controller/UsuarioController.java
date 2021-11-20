@@ -37,7 +37,7 @@ import com.misiontic2022.hackaton.webreciclaje.webreciclaje.security.token.JwtPr
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -53,7 +53,7 @@ public class UsuarioController {
     private JwtProvider jwtProvider;
 
 
-	@GetMapping("/usuarios")
+	@GetMapping
 	public ResponseEntity<List<Usuario>> getAllUsuarios() {
 		try {
 			List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -72,7 +72,7 @@ public class UsuarioController {
 
 	}
 
-	@GetMapping("/usuarios/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getUsuarioById(@PathVariable String id) {
 		Optional<Usuario> usuarioData = usuarioRepository.findById(id);
 
@@ -83,10 +83,17 @@ public class UsuarioController {
 		}
 	}
 
-	@PostMapping("/usuarios")
+	@PostMapping
 	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario user, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
             return new ResponseEntity(bindingResult.getAllErrors().toString()+"Please check the fiels", HttpStatus.BAD_REQUEST);
+		
+		if (!usuarioRepository.findByNick(user.getNick()).isEmpty()) {
+			return new ResponseEntity("Ya hay un nick con dicho nombre", HttpStatus.BAD_REQUEST);
+			
+		}
+		if (!usuarioRepository.findByEmail(user.getEmail()).isEmpty())
+			return new ResponseEntity("este email ya esta registrado", HttpStatus.BAD_REQUEST);
 		try {
 			
 			user.addUserRol();
@@ -99,7 +106,7 @@ public class UsuarioController {
 		}
 	}
 
-	@PutMapping("/usuarios/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Usuario> updateUsuario(@PathVariable String id, @RequestBody Usuario user) {
 		Optional<Usuario> usuarioData = usuarioRepository.findById(id);
 
@@ -113,7 +120,7 @@ public class UsuarioController {
 		}
 	}
 
-	@DeleteMapping("/usuarios/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteUsuarios(@PathVariable("id") String id) {
 		try {
 			usuarioRepository.deleteById(id);
@@ -123,20 +130,12 @@ public class UsuarioController {
 		}
 	}
 
-	@DeleteMapping("/usuarios")
-	public ResponseEntity<HttpStatus> deleteAllUsuarioss() {
-		try {
-			usuarioRepository.deleteAll();
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+
 	
 	
 
-	@GetMapping("/usuarioss/{email}")
-	public ResponseEntity<List<Usuario>> findByUsername(@PathVariable String email) {
+	@GetMapping("/{email}")
+	public ResponseEntity<List<Usuario>> findByEmail(@PathVariable String email) {
 		try {
 			List<Usuario> usuarios = usuarioRepository.findByEmail(email);
 
