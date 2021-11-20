@@ -14,7 +14,7 @@ async function iniciarSesion() {
 	});
 	
 	
-	var respuesta = await request.text();
+	var respuesta = await request.json();
 	
 	console.log(respuesta)
 	
@@ -22,7 +22,7 @@ async function iniciarSesion() {
 
 	if (respuesta != "please check all fields") {
 		
-		localStorage.token = respuesta;
+		localStorage.token = respuesta.token;
 		localStorage.email = datos.email;
 		
 		const request = await fetch('/dashboard.html', {
@@ -33,7 +33,6 @@ async function iniciarSesion() {
 			'Authorization': localStorage.token
 		},
 		
-		body: JSON.stringify(datos)
 		
 		
 		});
